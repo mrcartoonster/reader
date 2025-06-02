@@ -1,0 +1,28 @@
+name: Lint Python Code
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  lint: # The name of the job
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@ipv4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip"
+      # Installing ruff and dependencies. Just ruff for now
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install ruff
+      # Running ruff
+      - name: Run ruff
+        run: ruff check --output-format=github
